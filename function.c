@@ -197,7 +197,7 @@ Number *multiply(Number *number1, Number *number2) {
         for (int j = 0; j < i; j++) {
             insert_front(new_number, '0');
         }
-        for(int j = 0; j < number1->length; j++, t1 = t1->prev) {
+        for (int j = 0; j < number1->length; j++, t1 = t1->prev) {
             current_value = t1->value * t2->value + carry;
             carry = current_value / 10;
             insert_front(new_number, CHR(current_value % 10));
@@ -237,6 +237,6 @@ Number *multiply(Number *number1, Number *number2) {
 
 Number *divide(Number *number1, Number *number2) {
     Number *res = init_number();
-
+    // TODO
     return res;
 }
