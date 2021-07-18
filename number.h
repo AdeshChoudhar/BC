@@ -27,29 +27,22 @@ typedef struct Digit {
 typedef struct Number {
     int sign;
     int length;
-    int decimal;
     Digit *head;
     Digit *tail;
 } Number;
 
 Digit *init_digit(int);
-
 Number *init_number();
 
 void insert_back(Number *, char);
-
 void insert_front(Number *, char);
-
 void remove_back(Number *);
-
 void remove_front(Number *);
 
 bool is_zero(Number *);
 
 void clean_number(Number *);
-
 void show_number(Number *);
-
 void delete_number(Number *);
 
 #endif //BC_NUMBER_H

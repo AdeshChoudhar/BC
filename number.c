@@ -5,9 +5,15 @@
 #include "number.h"
 
 Digit *init_digit(int value) {
+    if (value < 0 || value > 9) {
+        throw_error(1);
+        return NULL;
+    }
+
     Digit *new_digit = (Digit *) malloc(sizeof(Digit));
     if (!new_digit) {
-        throw_error(1);
+        throw_error(2);
+        return NULL;
     }
 
     new_digit->value = value;
@@ -20,12 +26,12 @@ Digit *init_digit(int value) {
 Number *init_number() {
     Number *new_number = (Number *) malloc(sizeof(Number));
     if (!new_number) {
-        throw_error(2);
+        throw_error(3);
+        return NULL;
     }
 
     new_number->sign = PLUS;
     new_number->length = 0;
-    new_number->decimal = 0;
     new_number->head = NULL;
     new_number->tail = NULL;
 
@@ -97,18 +103,10 @@ bool is_zero(Number *number) {
 }
 
 void clean_number(Number *number) {
-    Digit *head = NULL, *tail = NULL, *current_digit = NULL, *tmp = NULL;
-
-    // Removing trailing zeroes
-    while (number->tail && (number->tail->value == 0) && number->decimal) {
-        remove_back(number);
-    }
-
     // Removing leading zeroes
     while (number->head && (number->head->value == 0) && number->length > 1) {
         remove_front(number);
     }
-
 }
 
 void show_number(Number *number) {

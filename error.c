@@ -6,8 +6,10 @@
 
 void throw_error(int error_number) {
     // TODO
-    // 1. Digit malloc
-    // 2. Number malloc
-    // 3. node_N malloc
-    // 4. node_C malloc
+    // 1. Digit value
+    // 2. Digit malloc
+    // 3. Number malloc
+    // 4. node_N malloc
+    // 5. node_C malloc
+    // 6. Divide by 0
 }

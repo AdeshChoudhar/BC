@@ -8,19 +8,15 @@
 #include "stack.h"
 
 void copy_number(Number *, Number *);
-
 void make_length_equal(Number *, Number *);
-
-void make_decimal_equal(Number *, Number *);
-
 int compare_numbers(Number *, Number *);
 
+void increment(Number *);
+void decrement(Number *);
+
 Number *add(Number *, Number *);
-
 Number *subtract(Number *, Number *);
-
 Number *multiply(Number *, Number *);
-
 Number *divide(Number *, Number *);
 
 #endif //BC_FUNCTION_H

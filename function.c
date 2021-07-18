@@ -9,14 +9,13 @@ void copy_number(Number *number1, Number *number2) {
         remove_front(number1);
     }
 
-    number1->sign = number2->sign;
-    number1->decimal = number2->decimal;
-
     Digit *current_digit = number2->head;
     while (current_digit) {
         insert_back(number1, CHR(current_digit->value));
         current_digit = current_digit->next;
     }
+
+    number1->sign = number2->sign;
 }
 
 void make_length_equal(Number *number1, Number *number2) {
@@ -28,19 +27,6 @@ void make_length_equal(Number *number1, Number *number2) {
     } else if (diff > 0) {
         for (int i = 0; i < diff; i++) {
             insert_front(number2, '0');
-        }
-    }
-}
-
-void make_decimal_equal(Number *number1, Number *number2) {
-    int diff = number1->decimal - number2->decimal;
-    if (diff < 0) {
-        for (int i = 0; i < abs(diff); i++) {
-            insert_back(number1, '0');
-        }
-    } else if (diff > 0) {
-        for (int i = 0; i < diff; i++) {
-            insert_back(number2, '0');
         }
     }
 }
@@ -61,13 +47,61 @@ int compare_numbers(Number *number1, Number *number2) {
     return 0;
 }
 
+void increment(Number *number) {
+    if (number->tail) {
+        if (number->sign == PLUS) {
+            if (number->tail->value == 9) {
+                number->tail->value = 0;
+                if (number->tail->prev) {
+                    number->tail = number->tail->prev;
+                    increment(number);
+                    number->tail = number->tail->next;
+                } else {
+                    insert_front(number, '1');
+                }
+            } else {
+                number->tail->value += 1;
+            }
+        } else {
+            number->sign = PLUS;
+            decrement(number);
+            number->sign = is_zero(number) ? PLUS : MINUS;
+        }
+    }
+}
+
+void decrement(Number *number) {
+    if (number->tail) {
+        if (number->sign == PLUS) {
+            if (number->tail->value == 0) {
+                if (number->tail->prev) {
+                    number->tail->value = 9;
+                    number->tail = number->tail->prev;
+                    decrement(number);
+                    number->tail = number->tail->next;
+                    clean_number(number);
+                } else {
+                    number->sign = is_zero(number) ? MINUS : PLUS;
+                    number->tail->value += is_zero(number) ? 1 : -1;
+                }
+            } else {
+                number->tail->value -= 1;
+            }
+        } else {
+            number->sign = PLUS;
+            increment(number);
+            number->sign = MINUS;
+        }
+    }
+}
+
 Number *add(Number *number1, Number *number2) {
     Number *res;
 
     clean_number(number1);
     clean_number(number2);
+
     make_length_equal(number1, number2);
-    make_decimal_equal(number1, number2);
 
     if (number1->sign == number2->sign) {
         res = init_number();
@@ -83,7 +117,6 @@ Number *add(Number *number1, Number *number2) {
             insert_front(res, CHR(carry));
         }
         res->sign = number1->sign;
-        res->decimal = number1->decimal;
     } else {
         if (number1->sign == PLUS) {
             number2->sign = PLUS;
@@ -95,8 +128,6 @@ Number *add(Number *number1, Number *number2) {
             number1->sign = MINUS;
         }
     }
-
-    res->decimal = number1->decimal >= number2->decimal ? number1->decimal : number2->decimal;
 
     clean_number(number1);
     clean_number(number2);
@@ -110,8 +141,8 @@ Number *subtract(Number *number1, Number *number2) {
 
     clean_number(number1);
     clean_number(number2);
+
     make_length_equal(number1, number2);
-    make_decimal_equal(number1, number2);
 
     if (number1->sign == number2->sign) {
         if (number1->sign == PLUS) {
@@ -162,8 +193,6 @@ Number *subtract(Number *number1, Number *number2) {
         }
     }
 
-    res->decimal = number1->decimal >= number2->decimal ? number1->decimal : number2->decimal;
-
     clean_number(number1);
     clean_number(number2);
     clean_number(res);
@@ -175,14 +204,9 @@ Number *multiply(Number *number1, Number *number2) {
     Number *res = init_number();
 
     make_length_equal(number1, number2);
-    make_decimal_equal(number1, number2);
+
     clean_number(number1);
     clean_number(number2);
-
-    int s1 = number1->sign;
-    int s2 = number2->sign;
-    number1->sign = PLUS;
-    number2->sign = PLUS;
 
     Number *arr[number2->length];
 
@@ -218,15 +242,11 @@ Number *multiply(Number *number1, Number *number2) {
         delete_number(arr[i]);
     }
 
-    number1->sign = s1;
-    number2->sign = s2;
     if (number1->sign == number2->sign) {
         res->sign = PLUS;
     } else {
         res->sign = MINUS;
     }
-
-    res->decimal = number1->decimal + number2->decimal;
 
     clean_number(number1);
     clean_number(number2);
@@ -237,6 +257,28 @@ Number *multiply(Number *number1, Number *number2) {
 
 Number *divide(Number *number1, Number *number2) {
     Number *res = init_number();
-    // TODO
+    insert_front(res, '0');
+
+    if (is_zero(number2)) {
+        throw_error(6);
+        return NULL;
+    }
+
+    Number *tmp;
+    Number *number1_copy = init_number();
+    copy_number(number1_copy, number1);
+    while (compare_numbers(number1_copy, number2) != -1) {
+        tmp = subtract(number1_copy, number2);
+        copy_number(number1_copy, tmp);
+        delete_number(tmp);
+        increment(res);
+    }
+
+    if (number1->sign == number2->sign) {
+        res->sign = PLUS;
+    } else {
+        res->sign = MINUS;
+    }
+
     return res;
 }

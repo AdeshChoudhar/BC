@@ -29,7 +29,7 @@ int main() {
     number1->sign = PLUS;
     number2->sign = PLUS;
 
-    Number *tmp = multiply(number1, number2);
+    Number *tmp = divide(number1, number2);
     printf("\nResult: ");
     show_number(tmp);
     printf("Sign: %s\n", tmp->sign == 1 ? "PLUS" : "MINUS");
