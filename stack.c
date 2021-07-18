@@ -8,7 +8,6 @@ node_N *init_node_N(Number *number) {
     node_N *new_node_N = (node_N *) malloc(sizeof(node_N));
     if (!new_node_N) {
         throw_error(4);
-        return NULL;
     }
 
     new_node_N->number = number;
@@ -43,7 +42,6 @@ node_C *init_node_C(char character) {
     node_C *new_node_C = (node_C *) malloc(sizeof(node_C));
     if (!new_node_C) {
         throw_error(5);
-        return NULL;
     }
 
     new_node_C->character = character;

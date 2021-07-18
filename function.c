@@ -256,13 +256,14 @@ Number *multiply(Number *number1, Number *number2) {
 }
 
 Number *divide(Number *number1, Number *number2) {
-    Number *res = init_number();
-    insert_front(res, '0');
+    Number *res;
 
     if (is_zero(number2)) {
         throw_error(6);
-        return NULL;
     }
+
+    res = init_number();
+    insert_front(res, '0');
 
     Number *tmp;
     Number *number1_copy = init_number();

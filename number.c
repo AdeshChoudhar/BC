@@ -7,13 +7,11 @@
 Digit *init_digit(int value) {
     if (value < 0 || value > 9) {
         throw_error(1);
-        return NULL;
     }
 
     Digit *new_digit = (Digit *) malloc(sizeof(Digit));
     if (!new_digit) {
         throw_error(2);
-        return NULL;
     }
 
     new_digit->value = value;
@@ -27,7 +25,6 @@ Number *init_number() {
     Number *new_number = (Number *) malloc(sizeof(Number));
     if (!new_number) {
         throw_error(3);
-        return NULL;
     }
 
     new_number->sign = PLUS;

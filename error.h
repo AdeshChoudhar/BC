@@ -5,6 +5,9 @@
 #ifndef BC_ERROR_H
 #define BC_ERROR_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 void throw_error(int);
 
 #endif //BC_ERROR_H
