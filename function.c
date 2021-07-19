@@ -5,6 +5,10 @@
 #include "function.h"
 
 void copy_number(Number *number1, Number *number2) {
+    if (!number1 || !number2) {
+        return;
+    }
+
     while (number1->head) {
         remove_front(number1);
     }
@@ -14,11 +18,14 @@ void copy_number(Number *number1, Number *number2) {
         insert_back(number1, CHR(current_digit->value));
         current_digit = current_digit->next;
     }
-
     number1->sign = number2->sign;
 }
 
 void make_length_equal(Number *number1, Number *number2) {
+    if (!number1 || !number2) {
+        return;
+    }
+
     int diff = number1->length - number2->length;
     if (diff < 0) {
         for (int i = 0; i < abs(diff); i++) {
@@ -32,6 +39,10 @@ void make_length_equal(Number *number1, Number *number2) {
 }
 
 int compare_numbers(Number *number1, Number *number2) {
+    if (!number1 || !number2) {
+        return 0;
+    }
+
     make_length_equal(number1, number2);
 
     Digit *d1 = number1->head;
@@ -48,61 +59,67 @@ int compare_numbers(Number *number1, Number *number2) {
 }
 
 void increment(Number *number) {
-    if (number->tail) {
-        if (number->sign == PLUS) {
-            if (number->tail->value == 9) {
-                number->tail->value = 0;
-                if (number->tail->prev) {
-                    number->tail = number->tail->prev;
-                    increment(number);
-                    number->tail = number->tail->next;
-                } else {
-                    insert_front(number, '1');
-                }
+    if (!number || !number->tail) {
+        return;
+    }
+
+    if (number->sign == PLUS) {
+        if (number->tail->value == 9) {
+            number->tail->value = 0;
+            if (number->tail->prev) {
+                number->tail = number->tail->prev;
+                increment(number);
+                number->tail = number->tail->next;
             } else {
-                number->tail->value += 1;
+                insert_front(number, '1');
             }
         } else {
-            number->sign = PLUS;
-            decrement(number);
-            number->sign = is_zero(number) ? PLUS : MINUS;
+            number->tail->value += 1;
         }
+    } else {
+        number->sign = PLUS;
+        decrement(number);
+        number->sign = is_zero(number) ? PLUS : MINUS;
     }
 }
 
 void decrement(Number *number) {
-    if (number->tail) {
-        if (number->sign == PLUS) {
-            if (number->tail->value == 0) {
-                if (number->tail->prev) {
-                    number->tail->value = 9;
-                    number->tail = number->tail->prev;
-                    decrement(number);
-                    number->tail = number->tail->next;
-                    clean_number(number);
-                } else {
-                    number->sign = is_zero(number) ? MINUS : PLUS;
-                    number->tail->value += is_zero(number) ? 1 : -1;
-                }
+    if (!number || !number->tail) {
+        return;
+    }
+
+    if (number->sign == PLUS) {
+        if (number->tail->value == 0) {
+            if (number->tail->prev) {
+                number->tail->value = 9;
+                number->tail = number->tail->prev;
+                decrement(number);
+                number->tail = number->tail->next;
+                clean_number(number);
             } else {
-                number->tail->value -= 1;
+                number->sign = is_zero(number) ? MINUS : PLUS;
+                number->tail->value += is_zero(number) ? 1 : -1;
             }
         } else {
-            number->sign = PLUS;
-            increment(number);
-            number->sign = MINUS;
+            number->tail->value -= 1;
         }
+    } else {
+        number->sign = PLUS;
+        increment(number);
+        number->sign = MINUS;
     }
 }
 
 Number *add(Number *number1, Number *number2) {
-    Number *res;
+    if (!number1 || !number2) {
+        return NULL;
+    }
 
     clean_number(number1);
     clean_number(number2);
-
     make_length_equal(number1, number2);
 
+    Number *res;
     if (number1->sign == number2->sign) {
         res = init_number();
         int current_value, carry = 0;
@@ -137,13 +154,15 @@ Number *add(Number *number1, Number *number2) {
 }
 
 Number *subtract(Number *number1, Number *number2) {
-    Number *res;
+    if (!number1 || !number2) {
+        return NULL;
+    }
 
     clean_number(number1);
     clean_number(number2);
-
     make_length_equal(number1, number2);
 
+    Number *res;
     if (number1->sign == number2->sign) {
         if (number1->sign == PLUS) {
             int current_value, tmp_value, borrow = 0;
@@ -201,13 +220,15 @@ Number *subtract(Number *number1, Number *number2) {
 }
 
 Number *multiply(Number *number1, Number *number2) {
-    Number *res = init_number();
+    if (!number1 || !number2) {
+        return NULL;
+    }
 
     make_length_equal(number1, number2);
-
     clean_number(number1);
     clean_number(number2);
 
+    Number *res = init_number();
     Number *arr[number2->length];
 
     Digit *t1;
@@ -256,13 +277,16 @@ Number *multiply(Number *number1, Number *number2) {
 }
 
 Number *divide(Number *number1, Number *number2) {
-    Number *res;
+    if (!number1 || !number2) {
+        return NULL;
+    }
 
     if (is_zero(number2)) {
         throw_error(6);
+        return NULL;
     }
 
-    res = init_number();
+    Number *res = init_number();
     insert_front(res, '0');
 
     Number *tmp;

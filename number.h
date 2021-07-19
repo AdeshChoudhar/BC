@@ -39,6 +39,7 @@ void insert_front(Number *, char);
 void remove_back(Number *);
 void remove_front(Number *);
 
+bool is_valid_character(char);
 bool is_zero(Number *);
 
 void clean_number(Number *);

@@ -32,7 +32,7 @@ int main() {
     Number *tmp = divide(number1, number2);
     printf("\nResult: ");
     show_number(tmp);
-    printf("Sign: %s\n", tmp->sign == 1 ? "PLUS" : "MINUS");
+    printf("Sign: %s\n", tmp && tmp->sign == 1 ? "PLUS" : "MINUS");
 
     delete_number(number1);
     delete_number(number2);
