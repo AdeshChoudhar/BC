@@ -124,7 +124,7 @@ bool is_zero(Number *number) {
     return (number && number->length == 1 && number->head->value == 0);
 }
 
-void clean_number(Number *number) {
+void clean(Number *number) {
     // Removing leading zeroes
     while (number && number->head && (number->head->value == 0) && number->length > 1) {
         remove_front(number);
@@ -144,7 +144,7 @@ void show_number(Number *number) {
     printf("\n");
 }
 
-void delete_number(Number *number) {
+void clear_number(Number *number) {
     if (!number) {
         return;
     }
@@ -154,6 +154,10 @@ void delete_number(Number *number) {
         remove_front(number);
         current_digit = number->head;
     }
+}
+
+void delete_number(Number *number) {
+    clear_number(number);
     number->head = NULL;
     number->tail = NULL;
     free(number);

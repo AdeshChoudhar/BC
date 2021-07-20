@@ -45,17 +45,20 @@ int compare_numbers(Number *number1, Number *number2) {
 
     make_length_equal(number1, number2);
 
+    int flag = 0;
     Digit *d1 = number1->head;
     Digit *d2 = number2->head;
     for (int i = 0; i < number1->length; i++, d1 = d1->next, d2 = d2->next) {
         if (d1->value < d2->value) {
-            return -1;
+            flag = -1;
+            break;
         } else if (d1->value > d2->value) {
-            return 1;
+            flag = 1;
+            break;
         }
     }
 
-    return 0;
+    return flag;
 }
 
 void increment(Number *number) {
@@ -95,7 +98,7 @@ void decrement(Number *number) {
                 number->tail = number->tail->prev;
                 decrement(number);
                 number->tail = number->tail->next;
-                clean_number(number);
+                clean(number);
             } else {
                 number->sign = is_zero(number) ? MINUS : PLUS;
                 number->tail->value += is_zero(number) ? 1 : -1;
@@ -115,8 +118,8 @@ Number *add(Number *number1, Number *number2) {
         return NULL;
     }
 
-    clean_number(number1);
-    clean_number(number2);
+    clean(number1);
+    clean(number2);
     make_length_equal(number1, number2);
 
     Number *res;
@@ -146,9 +149,9 @@ Number *add(Number *number1, Number *number2) {
         }
     }
 
-    clean_number(number1);
-    clean_number(number2);
-    clean_number(res);
+    clean(number1);
+    clean(number2);
+    clean(res);
 
     return res;
 }
@@ -158,8 +161,8 @@ Number *subtract(Number *number1, Number *number2) {
         return NULL;
     }
 
-    clean_number(number1);
-    clean_number(number2);
+    clean(number1);
+    clean(number2);
     make_length_equal(number1, number2);
 
     Number *res;
@@ -212,9 +215,9 @@ Number *subtract(Number *number1, Number *number2) {
         }
     }
 
-    clean_number(number1);
-    clean_number(number2);
-    clean_number(res);
+    clean(number1);
+    clean(number2);
+    clean(res);
 
     return res;
 }
@@ -225,8 +228,8 @@ Number *multiply(Number *number1, Number *number2) {
     }
 
     make_length_equal(number1, number2);
-    clean_number(number1);
-    clean_number(number2);
+    clean(number1);
+    clean(number2);
 
     Number *res = init_number();
     Number *arr[number2->length];
@@ -250,8 +253,14 @@ Number *multiply(Number *number1, Number *number2) {
         if (carry) {
             insert_front(new_number, CHR(carry));
         }
-        clean_number(new_number);
+        clean(new_number);
         arr[i] = new_number;
+    }
+
+    if (number1->sign == number2->sign) {
+        res->sign = PLUS;
+    } else {
+        res->sign = MINUS;
     }
 
     copy_number(res, arr[0]);
@@ -263,15 +272,9 @@ Number *multiply(Number *number1, Number *number2) {
         delete_number(arr[i]);
     }
 
-    if (number1->sign == number2->sign) {
-        res->sign = PLUS;
-    } else {
-        res->sign = MINUS;
-    }
-
-    clean_number(number1);
-    clean_number(number2);
-    clean_number(res);
+    clean(number1);
+    clean(number2);
+    clean(res);
 
     return res;
 }
@@ -287,16 +290,34 @@ Number *divide(Number *number1, Number *number2) {
     }
 
     Number *res = init_number();
-    insert_front(res, '0');
 
-    Number *tmp;
-    Number *number1_copy = init_number();
-    copy_number(number1_copy, number1);
-    while (compare_numbers(number1_copy, number2) != -1) {
-        tmp = subtract(number1_copy, number2);
-        copy_number(number1_copy, tmp);
-        delete_number(tmp);
-        increment(res);
+    Number *arr[10];
+    Number *tmp = init_number();
+    insert_front(tmp, '0');
+    for (int i = 0; i < 10; i++) {
+        arr[i] = multiply(number2, tmp);
+        tmp->head->value += 1;
+    }
+
+    Number *sub;
+    Number *current = init_number();
+    Digit *tmp_head = number1->head;
+    for (int i = 0; i < number1->length; i++, tmp_head = tmp_head->next) {
+        clean(current);
+        insert_back(current, CHR(tmp_head->value));
+        if (compare_numbers(current, number2) == -1) {
+            insert_back(res, '0');
+        } else {
+            int j = 10;
+            do {
+                j--;
+            } while (compare_numbers(current, arr[j]) == -1);
+
+            insert_back(res, CHR(j));
+            sub = subtract(current, arr[j]);
+            copy_number(current, sub);
+            delete_number(sub);
+        }
     }
 
     if (number1->sign == number2->sign) {
@@ -304,6 +325,15 @@ Number *divide(Number *number1, Number *number2) {
     } else {
         res->sign = MINUS;
     }
+
+    for (int i = 0; i < 10; i++) {
+        delete_number(arr[i]);
+    }
+
+    delete_number(tmp);
+    delete_number(current);
+
+    clean(res);
 
     return res;
 }

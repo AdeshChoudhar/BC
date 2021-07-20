@@ -42,8 +42,10 @@ void remove_front(Number *);
 bool is_valid_character(char);
 bool is_zero(Number *);
 
-void clean_number(Number *);
+void clean(Number *);
+
 void show_number(Number *);
+void clear_number(Number *);
 void delete_number(Number *);
 
 #endif //BC_NUMBER_H
