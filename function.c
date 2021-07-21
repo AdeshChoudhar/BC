@@ -279,17 +279,19 @@ Number *multiply(Number *number1, Number *number2) {
     return res;
 }
 
-Number *divide(Number *number1, Number *number2) {
+Pair div_mod(Number *number1, Number *number2) {
+    Pair pair = {.first = NULL, .second = NULL};
     if (!number1 || !number2) {
-        return NULL;
+        return pair;
     }
 
     if (is_zero(number2)) {
         throw_error(6);
-        return NULL;
+        return pair;
     }
 
-    Number *res = init_number();
+    Number *div = init_number();
+    Number *mod = init_number();
 
     Number *arr[10];
     Number *tmp = init_number();
@@ -300,40 +302,79 @@ Number *divide(Number *number1, Number *number2) {
     }
 
     Number *sub;
-    Number *current = init_number();
     Digit *tmp_head = number1->head;
     for (int i = 0; i < number1->length; i++, tmp_head = tmp_head->next) {
-        clean(current);
-        insert_back(current, CHR(tmp_head->value));
-        if (compare_numbers(current, number2) == -1) {
-            insert_back(res, '0');
+        clean(mod);
+        insert_back(mod, CHR(tmp_head->value));
+        if (compare_numbers(mod, number2) == -1) {
+            insert_back(div, '0');
         } else {
             int j = 10;
             do {
                 j--;
-            } while (compare_numbers(current, arr[j]) == -1);
+            } while (compare_numbers(mod, arr[j]) == -1);
 
-            insert_back(res, CHR(j));
-            sub = subtract(current, arr[j]);
-            copy_number(current, sub);
+            insert_back(div, CHR(j));
+            sub = subtract(mod, arr[j]);
+            copy_number(mod, sub);
             delete_number(sub);
         }
     }
 
     if (number1->sign == number2->sign) {
-        res->sign = PLUS;
+        div->sign = PLUS;
     } else {
-        res->sign = MINUS;
+        div->sign = MINUS;
     }
+    mod->sign = PLUS;
 
     for (int i = 0; i < 10; i++) {
         delete_number(arr[i]);
     }
 
     delete_number(tmp);
-    delete_number(current);
 
-    clean(res);
+    clean(div);
+    clean(mod);
+
+    pair.first = div;
+    pair.second = mod;
+
+    return pair;
+}
+
+Number *divide(Number *number1, Number *number2) {
+    if (!number1 || !number2) {
+        return NULL;
+    }
+
+    if (is_zero(number2)) {
+        throw_error(6);
+        return NULL;
+    }
+
+    Pair pair = div_mod(number1, number2);
+    delete_number(pair.second);
+
+    Number *res = pair.first;
+
+    return res;
+}
+
+Number *modulo(Number *number1, Number *number2) {
+    if (!number1 || !number2) {
+        return NULL;
+    }
+
+    if (is_zero(number2)) {
+        throw_error(6);
+        return NULL;
+    }
+
+    Pair pair = div_mod(number1, number2);
+    delete_number(pair.first);
+
+    Number *res = pair.second;
 
     return res;
 }

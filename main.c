@@ -29,7 +29,7 @@ int main() {
     number1->sign = PLUS;
     number2->sign = PLUS;
 
-    Number *tmp = divide(number1, number2);
+    Number *tmp = modulo(number1, number2);
     printf("\nResult: ");
     show_number(tmp);
     if (tmp) {
