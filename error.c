@@ -31,7 +31,8 @@ void throw_error(int error_number) {
             break;
         }
         default: {
-            fprintf(stderr, "Unknown Error: IDK.\n");
+            fprintf(stderr, "Unknown Error: IDK!\n");
+            break;
         }
     }
 }

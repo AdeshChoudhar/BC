@@ -109,19 +109,32 @@ void remove_front(Number *number) {
     number->length -= 1;
 }
 
-bool is_valid_character(char character) {
-    char valid_characters[] = {'+', '-', '*', '/'};
-    int n = sizeof(valid_characters) / sizeof(valid_characters[0]);
-    for (int i = 0; i < n; i++) {
-        if (character == valid_characters[i]) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool is_zero(Number *number) {
     return (number && number->length == 1 && number->head->value == 0);
+}
+
+int odd_even(Number *number) {
+    if (!number) {
+        return -1;
+    }
+
+    return number->tail->value % 2;
+}
+
+bool is_binary(Number *number) {
+    if (!number) {
+        return false;
+    }
+
+    Digit *current_digit = number->head;
+    while (current_digit) {
+        if (current_digit->value != 0 && current_digit->value != 1) {
+            return false;
+        }
+        current_digit = current_digit->next;
+    }
+
+    return true;
 }
 
 void clean(Number *number) {
@@ -144,7 +157,7 @@ void show_number(Number *number) {
     printf("\n");
 }
 
-void clear_number(Number *number) {
+void delete_number(Number *number) {
     if (!number) {
         return;
     }
@@ -154,10 +167,6 @@ void clear_number(Number *number) {
         remove_front(number);
         current_digit = number->head;
     }
-}
-
-void delete_number(Number *number) {
-    clear_number(number);
     number->head = NULL;
     number->tail = NULL;
     free(number);

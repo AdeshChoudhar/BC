@@ -25,5 +25,9 @@ Number *multiply(Number *, Number *);
 Pair div_mod(Number *, Number *);
 Number *divide(Number *, Number *);
 Number *modulo(Number *, Number *);
+Number *power(Number *, Number *);
+
+Number *binary(Number *);
+Number *decimal(Number *);
 
 #endif //BC_FUNCTION_H

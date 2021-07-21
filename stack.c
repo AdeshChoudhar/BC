@@ -30,6 +30,7 @@ void push_N(stack_N *stack, Number *number) {
     if (!new_node_N) {
         return;
     }
+
     new_node_N->next = *stack;
     *stack = new_node_N;
 }
@@ -38,14 +39,27 @@ void pop_N(stack_N *stack) {
     if (is_empty_N(stack)) {
         return;
     }
+
     node_N *tmp = *stack;
     *stack = (*stack)->next;
     tmp->next = NULL;
     free(tmp);
 }
 
-node_C *init_node_C(char character) {
-    if (!is_valid_character(character)) {
+bool is_valid_operator(const char *operator) {
+    char *valid_characters[] = {"+", "-", "*", "/", "%", "**"};
+    int n = sizeof(valid_characters) / sizeof(valid_characters[0]);
+    for (int i = 0; i < n; i++) {
+        if (strcmp(operator, valid_characters[i]) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+node_C *init_node_C(char *operator) {
+    if (!is_valid_operator(operator)) {
         return NULL;
     }
 
@@ -55,7 +69,7 @@ node_C *init_node_C(char character) {
         return NULL;
     }
 
-    new_node_C->character = character;
+    new_node_C->operator = operator;
     new_node_C->next = NULL;
 
     return new_node_C;
@@ -65,11 +79,12 @@ bool is_empty_C(stack_C *stack) {
     return (*stack == NULL);
 }
 
-void push_C(stack_C *stack, char character) {
-    node_C *new_node_C = init_node_C(character);
+void push_C(stack_C *stack, char *operator) {
+    node_C *new_node_C = init_node_C(operator);
     if (!new_node_C) {
         return;
     }
+
     new_node_C->next = *stack;
     *stack = new_node_C;
 }

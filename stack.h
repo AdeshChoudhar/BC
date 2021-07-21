@@ -7,7 +7,7 @@
 
 #include "number.h"
 
-// Stack for Numbers
+// Numbers
 typedef struct node_N {
     Number *number;
     struct node_N *next;
@@ -20,17 +20,19 @@ bool is_empty_N(stack_N *);
 void push_N(stack_N *, Number *);
 void pop_N(stack_N *);
 
-// Stack for char
+// Operators
 typedef struct node_C {
-    char character;
+    char *operator;
     struct node_C *next;
 } node_C;
 
 typedef node_C *stack_C;
 
-node_C *init_node_C(char);
+bool is_valid_operator(const char *);
+
+node_C *init_node_C(char *);
 bool is_empty_C(stack_C *);
-void push_C(stack_C *, char);
+void push_C(stack_C *, char *);
 void pop_C(stack_C *);
 
 #endif //BC_STACK_H

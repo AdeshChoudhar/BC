@@ -5,11 +5,6 @@
 #ifndef BC_NUMBER_H
 #define BC_NUMBER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
 #include "error.h"
 
 #define PLUS 1
@@ -39,13 +34,13 @@ void insert_front(Number *, char);
 void remove_back(Number *);
 void remove_front(Number *);
 
-bool is_valid_character(char);
 bool is_zero(Number *);
+int odd_even(Number *);
+bool is_binary(Number *);
 
 void clean(Number *);
 
 void show_number(Number *);
-void clear_number(Number *);
 void delete_number(Number *);
 
 #endif //BC_NUMBER_H
