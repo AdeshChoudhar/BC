@@ -38,9 +38,11 @@ bool is_zero(Number *);
 int odd_even(Number *);
 bool is_binary(Number *);
 
-void clean(Number *);
-
 void show_number(Number *);
+void show_numbers(int, ...);
+void clean_number(Number *);
+void clean_numbers(int, ...);
 void delete_number(Number *);
+void delete_numbers(int, ...);
 
 #endif //BC_NUMBER_H

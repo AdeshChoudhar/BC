@@ -145,13 +145,6 @@ bool is_binary(Number *number) {
     return true;
 }
 
-void clean(Number *number) {
-    // Removing leading zeroes
-    while (number && number->head && (number->head->value == 0) && number->length > 1) {
-        remove_front(number);
-    }
-}
-
 void show_number(Number *number) {
     if (!number) {
         return;
@@ -163,6 +156,34 @@ void show_number(Number *number) {
         current_digit = current_digit->next;
     }
     printf("\n");
+}
+
+void show_numbers(int cnt, ...) {
+    va_list numbers;
+    va_start(numbers, cnt);
+    for (int i = 0; i < cnt; i++) {
+        Number *number = va_arg(numbers, Number *);
+        show_number(number);
+    }
+    va_end(numbers);
+
+}
+
+void clean_number(Number *number) {
+    // Removing leading zeroes
+    while (number && number->head && (number->head->value == 0) && number->length > 1) {
+        remove_front(number);
+    }
+}
+
+void clean_numbers(int cnt, ...) {
+    va_list numbers;
+    va_start(numbers, cnt);
+    for (int i = 0; i < cnt; i++) {
+        Number *number = va_arg(numbers, Number *);
+        clean_number(number);
+    }
+    va_end(numbers);
 }
 
 void delete_number(Number *number) {
@@ -178,4 +199,14 @@ void delete_number(Number *number) {
     number->head = NULL;
     number->tail = NULL;
     free(number);
+}
+
+void delete_numbers(int cnt, ...) {
+    va_list numbers;
+    va_start(numbers, cnt);
+    for (int i = 0; i < cnt; i++) {
+        Number *number = va_arg(numbers, Number *);
+        delete_number(number);
+    }
+    va_end(numbers);
 }

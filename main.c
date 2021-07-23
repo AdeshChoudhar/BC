@@ -38,9 +38,7 @@ int main() {
         printf("Sign: %s\n", tmp->sign == 1 ? "PLUS" : "MINUS");
     }
 
-    delete_number(number1);
-    delete_number(number2);
-    delete_number(tmp);
+    delete_numbers(3, number1, number2, tmp);
 
     return 0;
 }
