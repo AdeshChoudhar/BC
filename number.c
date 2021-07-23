@@ -44,6 +44,10 @@ void insert_back(Number *number, char value) {
     }
 
     Digit *new_digit = init_digit(ORD(value));
+    if (!new_digit) {
+        return;
+    }
+
     if (number->head == NULL) {
         number->head = new_digit;
         number->tail = new_digit;
@@ -61,6 +65,10 @@ void insert_front(Number *number, char value) {
     }
 
     Digit *new_digit = init_digit(ORD(value));
+    if (!new_digit) {
+        return;
+    }
+
     if (number->head == NULL) {
         number->head = new_digit;
         number->tail = new_digit;

@@ -28,8 +28,6 @@ typedef struct node_C {
 
 typedef node_C *stack_C;
 
-bool is_valid_operator(const char *);
-
 node_C *init_node_C(char *);
 bool is_empty_C(stack_C *);
 void push_C(stack_C *, char *);

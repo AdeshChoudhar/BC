@@ -19,19 +19,19 @@ int main() {
         insert_back(number1, expr[i]);
     }
 
-//    printf("Enter Number2: ");
-//    scanf("%s", expr);
-//
-//    for (int i = 0; expr[i] != '\0'; i++) {
-//        insert_back(number2, expr[i]);
-//    }
+    printf("Enter Number2: ");
+    scanf("%s", expr);
 
-    number1->sign = MINUS;
-//    number2->sign = PLUS;
+    for (int i = 0; expr[i] != '\0'; i++) {
+        insert_back(number2, expr[i]);
+    }
 
-//    Number *tmp = power(number1, number2);
+    number1->sign = PLUS;
+    number2->sign = PLUS;
 
-    Number *tmp = decimal(number1);
+    Number *tmp = shift_right(number1, number2);
+//    Number *tmp = decimal(number1);
+
     printf("\nResult: ");
     show_number(tmp);
     if (tmp) {

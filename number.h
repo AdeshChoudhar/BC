@@ -5,7 +5,7 @@
 #ifndef BC_NUMBER_H
 #define BC_NUMBER_H
 
-#include "error.h"
+#include "helpers.h"
 
 #define PLUS 1
 #define MINUS -1

@@ -2,7 +2,7 @@
 // Created by adeshchoudhar on 16/07/21.
 //
 
-#include "error.h"
+#include "helpers.h"
 
 void throw_error(int error_number) {
     switch (error_number) {
@@ -30,9 +30,29 @@ void throw_error(int error_number) {
             fprintf(stderr, "Division Error: Divisor cannot be 0.\n");
             break;
         }
+        case 7: {
+            fprintf(stderr, "Value Error: Negative shift count.\n");
+            break;
+        }
         default: {
             fprintf(stderr, "Unknown Error: IDK!\n");
             break;
         }
     }
+}
+
+bool is_valid_operator(const char *operator) {
+    char *valid_characters[] = {"++", "--", "+", "-", "*", "/", "%", "**", "<<", ">>"};
+    int n = sizeof(valid_characters) / sizeof(valid_characters[0]);
+    for (int i = 0; i < n; i++) {
+        if (strcmp(operator, valid_characters[i]) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+int max(int m, int n) {
+    return (m > n ? m : n);
 }

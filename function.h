@@ -29,5 +29,7 @@ Number *power(Number *, Number *);
 
 Number *binary(Number *);
 Number *decimal(Number *);
+Number *shift_left(Number *, Number *);
+Number *shift_right(Number *, Number *);
 
 #endif //BC_FUNCTION_H

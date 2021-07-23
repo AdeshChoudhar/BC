@@ -46,18 +46,6 @@ void pop_N(stack_N *stack) {
     free(tmp);
 }
 
-bool is_valid_operator(const char *operator) {
-    char *valid_characters[] = {"+", "-", "*", "/", "%", "**"};
-    int n = sizeof(valid_characters) / sizeof(valid_characters[0]);
-    for (int i = 0; i < n; i++) {
-        if (strcmp(operator, valid_characters[i]) == 0) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 node_C *init_node_C(char *operator) {
     if (!is_valid_operator(operator)) {
         return NULL;
