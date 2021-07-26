@@ -34,6 +34,18 @@ void throw_error(int error_number) {
             fprintf(stderr, "Value Error: Negative shift count.\n");
             break;
         }
+        case 8: {
+            fprintf(stderr, "Memory Error: Expression memory allocation failed.\n");
+            break;
+        }
+        case 9: {
+            fprintf(stderr, "Operation Error: Invalid operator.\n");
+            break;
+        }
+        case 10: {
+            fprintf(stderr, "Parse Error: Invalid expression.\n");
+            break;
+        }
         default: {
             fprintf(stderr, "Unknown Error: IDK!\n");
             break;
@@ -41,15 +53,29 @@ void throw_error(int error_number) {
     }
 }
 
-bool is_valid_operator(const char *operator) {
-    char *valid_characters[] = {"++", "--", "+", "-", "*", "/", "%", "**", "<<", ">>"};
+bool is_valid_value(int value) {
+    return (0 <= value && value <= 9);
+}
+
+bool is_valid_character(char c) {
+    char valid_characters[] = {'+', '-', '*', '/', '%', '<', '>'};
     int n = sizeof(valid_characters) / sizeof(valid_characters[0]);
     for (int i = 0; i < n; i++) {
-        if (strcmp(operator, valid_characters[i]) == 0) {
+        if (c == valid_characters[i]) {
             return true;
         }
     }
+    return false;
+}
 
+bool is_valid_operator(const char *operator) {
+    char *valid_operators[] = {/*"++", "--",*/ "+", "-", "*", "/", "%", "**", "<<", ">>"};
+    int n = sizeof(valid_operators) / sizeof(valid_operators[0]);
+    for (int i = 0; i < n; i++) {
+        if (strcmp(operator, valid_operators[i]) == 0) {
+            return true;
+        }
+    }
     return false;
 }
 

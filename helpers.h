@@ -12,6 +12,8 @@
 #include <stdarg.h>
 
 void throw_error(int);
+bool is_valid_value(int);
+bool is_valid_character(char);
 bool is_valid_operator(const char *);
 int max(int, int);
 

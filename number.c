@@ -5,7 +5,7 @@
 #include "number.h"
 
 Digit *init_digit(int value) {
-    if (value < 0 || value > 9) {
+    if (!is_valid_value(value)) {
         throw_error(1);
         return NULL;
     }
@@ -118,7 +118,14 @@ void remove_front(Number *number) {
 }
 
 bool is_zero(Number *number) {
-    return (number && number->length == 1 && number->head->value == 0);
+    Number *number_copy = init_number();
+    copy_number(number_copy, number);
+
+    modify_number(number_copy);
+    bool flag = (number_copy && number_copy->length == 1 && number_copy->head->value == 0);
+    delete_number(number_copy);
+
+    return flag;
 }
 
 int odd_even(Number *number) {
@@ -145,9 +152,30 @@ bool is_binary(Number *number) {
     return true;
 }
 
+void copy_number(Number *number1, Number *number2) {
+    if (!number1 || !number2) {
+        return;
+    }
+
+    while (number1->head) {
+        remove_front(number1);
+    }
+
+    Digit *current_digit = number2->head;
+    while (current_digit) {
+        insert_back(number1, CHR(current_digit->value));
+        current_digit = current_digit->next;
+    }
+    number1->sign = number2->sign;
+}
+
 void show_number(Number *number) {
     if (!number) {
         return;
+    }
+
+    if (number->sign == MINUS) {
+        printf("-");
     }
 
     Digit *current_digit = number->head;
@@ -169,19 +197,19 @@ void show_numbers(int cnt, ...) {
 
 }
 
-void clean_number(Number *number) {
+void modify_number(Number *number) {
     // Removing leading zeroes
     while (number && number->head && (number->head->value == 0) && number->length > 1) {
         remove_front(number);
     }
 }
 
-void clean_numbers(int cnt, ...) {
+void modify_numbers(int cnt, ...) {
     va_list numbers;
     va_start(numbers, cnt);
     for (int i = 0; i < cnt; i++) {
         Number *number = va_arg(numbers, Number *);
-        clean_number(number);
+        modify_number(number);
     }
     va_end(numbers);
 }

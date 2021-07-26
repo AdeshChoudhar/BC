@@ -35,15 +35,23 @@ void push_N(stack_N *stack, Number *number) {
     *stack = new_node_N;
 }
 
-void pop_N(stack_N *stack) {
+Number *pop_N(stack_N *stack) {
     if (is_empty_N(stack)) {
-        return;
+        return NULL;
     }
 
     node_N *tmp = *stack;
     *stack = (*stack)->next;
+
+    Number *number = init_number();
+    copy_number(number, tmp->number);
     tmp->next = NULL;
     free(tmp);
+    return number;
+}
+
+Number *top_N(stack_N *stack) {
+    return is_empty_N(stack) ? NULL : (*stack)->number;
 }
 
 node_C *init_node_C(char *operator) {
@@ -77,12 +85,20 @@ void push_C(stack_C *stack, char *operator) {
     *stack = new_node_C;
 }
 
-void pop_C(stack_C *stack) {
+char *pop_C(stack_C *stack) {
     if (is_empty_C(stack)) {
-        return;
+        return "";
     }
+
     node_C *tmp = *stack;
     *stack = (*stack)->next;
+
+    char *operator = tmp->operator;
     tmp->next = NULL;
     free(tmp);
+    return operator;
+}
+
+char *top_C(stack_C *stack) {
+    return is_empty_C(stack) ? "" : (*stack)->operator;
 }

@@ -1,44 +1,35 @@
 #include <stdio.h>
 
-#include "function.h"
-
-#define MAX 1024
+#include "parse.h"
 
 int main() {
     printf("BC\n");
-    printf("Author: Adesh Choudhar\n\n");
+    printf("Author: Adesh Choudhar\n");
 
-    Number *number1 = init_number();
-    Number *number2 = init_number();
+    while (true) {
+        printf("> ");
+        char *expr = read();
 
-    char expr[MAX + 1];
-    printf("Enter Number1: ");
-    scanf("%s", expr);
-
-    for (int i = 0; expr[i] != '\0'; i++) {
-        insert_back(number1, expr[i]);
+        if (strcmp(expr, "help") == 0) {
+            menu();
+        } else if (strcmp(expr, "exit") == 0) {
+            printf("Bye!\n");
+            break;
+        } else if (expr[0] == '\0') {
+            continue;
+        } else if (is_valid_character(expr[0]) || is_valid_value(ORD(expr[0]))) {
+            Number *res = result(expr);
+            if (!res) {
+                throw_error(10);
+                continue;
+            }
+            show_number(res);
+            delete_number(res);
+        } else {
+            throw_error(10);
+        }
+        free(expr);
     }
-
-    printf("Enter Number2: ");
-    scanf("%s", expr);
-
-    for (int i = 0; expr[i] != '\0'; i++) {
-        insert_back(number2, expr[i]);
-    }
-
-    number1->sign = PLUS;
-    number2->sign = PLUS;
-
-    Number *tmp = shift_right(number1, number2);
-//    Number *tmp = decimal(number1);
-
-    printf("\nResult: ");
-    show_number(tmp);
-    if (tmp) {
-        printf("Sign: %s\n", tmp->sign == 1 ? "PLUS" : "MINUS");
-    }
-
-    delete_numbers(3, number1, number2, tmp);
 
     return 0;
 }

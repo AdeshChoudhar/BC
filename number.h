@@ -38,10 +38,11 @@ bool is_zero(Number *);
 int odd_even(Number *);
 bool is_binary(Number *);
 
+void copy_number(Number *, Number *);
 void show_number(Number *);
 void show_numbers(int, ...);
-void clean_number(Number *);
-void clean_numbers(int, ...);
+void modify_number(Number *);
+void modify_numbers(int, ...);
 void delete_number(Number *);
 void delete_numbers(int, ...);
 

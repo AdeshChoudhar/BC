@@ -4,23 +4,6 @@
 
 #include "function.h"
 
-void copy_number(Number *number1, Number *number2) {
-    if (!number1 || !number2) {
-        return;
-    }
-
-    while (number1->head) {
-        remove_front(number1);
-    }
-
-    Digit *current_digit = number2->head;
-    while (current_digit) {
-        insert_back(number1, CHR(current_digit->value));
-        current_digit = current_digit->next;
-    }
-    number1->sign = number2->sign;
-}
-
 void make_length_equal(Number *number1, Number *number2) {
     if (!number1 || !number2) {
         return;
@@ -49,7 +32,7 @@ int compare_numbers(Number *number1, Number *number2) {
     Number *n2 = init_number();
     copy_number(n2, number2);
 
-    clean_numbers(2, n1, n2);
+    modify_numbers(2, n1, n2);
     make_length_equal(n1, n2);
 
     int flag = 0;
@@ -115,7 +98,7 @@ void decrement(Number *number) {
                 number->tail = number->tail->prev;
                 decrement(number);
                 number->tail = number->tail->next;
-                clean_number(number);
+                modify_number(number);
             } else {
                 number->sign = is_zero(number) ? MINUS : PLUS;
                 number->tail->value += is_zero(number) ? 1 : -1;
@@ -143,7 +126,7 @@ Number *add(Number *number1, Number *number2) {
     Number *n2 = init_number();
     copy_number(n2, number2);
 
-    clean_numbers(2, n1, n2);
+    modify_numbers(2, n1, n2);
 
     if (is_zero(n1)) {
         res = init_number();
@@ -188,7 +171,7 @@ Number *add(Number *number1, Number *number2) {
 
     delete_numbers(2, n1, n2);
 
-    clean_number(res);
+    modify_number(res);
 
     return res;
 }
@@ -206,7 +189,7 @@ Number *subtract(Number *number1, Number *number2) {
     Number *n2 = init_number();
     copy_number(n2, number2);
 
-    clean_numbers(2, n1, n2);
+    modify_numbers(2, n1, n2);
 
     if (is_zero(n1)) {
         res = init_number();
@@ -274,7 +257,7 @@ Number *subtract(Number *number1, Number *number2) {
 
     delete_numbers(2, n1, n2);
 
-    clean_number(res);
+    modify_number(res);
 
     return res;
 }
@@ -292,7 +275,7 @@ Number *multiply(Number *number1, Number *number2) {
     Number *n2 = init_number();
     copy_number(n2, number2);
 
-    clean_numbers(2, n1, n2);
+    modify_numbers(2, n1, n2);
 
     if (is_zero(n1) || is_zero(n2)) {
         insert_front(res, '0');
@@ -321,7 +304,7 @@ Number *multiply(Number *number1, Number *number2) {
         if (carry) {
             insert_front(new_number, CHR(carry));
         }
-        clean_number(new_number);
+        modify_number(new_number);
         arr[i] = new_number;
     }
 
@@ -341,7 +324,7 @@ Number *multiply(Number *number1, Number *number2) {
 
     delete_numbers(2, n1, n2);
 
-    clean_number(res);
+    modify_number(res);
 
     return res;
 }
@@ -358,7 +341,7 @@ Pair div_mod(Number *number1, Number *number2) {
     Number *n2 = init_number();
     copy_number(n2, number2);
 
-    clean_numbers(2, n1, n2);
+    modify_numbers(2, n1, n2);
 
     if (is_zero(n2)) {
         throw_error(6);
@@ -381,7 +364,7 @@ Pair div_mod(Number *number1, Number *number2) {
     Number *sub;
     Digit *tmp_head = n1->head;
     for (int i = 0; i < n1->length; i++, tmp_head = tmp_head->next) {
-        clean_number(remainder);
+        modify_number(remainder);
         insert_back(remainder, CHR(tmp_head->value));
         if (compare_numbers(remainder, n2) == -1) {
             insert_back(quotient, '0');
@@ -411,7 +394,7 @@ Pair div_mod(Number *number1, Number *number2) {
 
     delete_numbers(3, n1, n2, tmp);
 
-    clean_numbers(2, quotient, remainder);
+    modify_numbers(2, quotient, remainder);
 
     pair.first = quotient;
     pair.second = remainder;
@@ -468,7 +451,7 @@ Number *power(Number *number1, Number *number2) {
     Number *n2 = init_number();
     copy_number(n2, number2);
 
-    clean_numbers(2, n1, n2);
+    modify_numbers(2, n1, n2);
 
     Number *zero = init_number();
     insert_back(zero, '0');
@@ -507,7 +490,7 @@ Number *power(Number *number1, Number *number2) {
 
     delete_numbers(4, n1, n2, zero, one);
 
-    clean_number(res);
+    modify_number(res);
 
     return res;
 }
@@ -541,7 +524,7 @@ Number *binary(Number *number) {
 
     delete_numbers(2, two, number_copy);
 
-    clean_number(res);
+    modify_number(res);
 
     return res;
 }
@@ -577,7 +560,7 @@ Number *decimal(Number *number) {
 
     delete_numbers(2, base, two);
 
-    clean_number(res);
+    modify_number(res);
 
     return res;
 }

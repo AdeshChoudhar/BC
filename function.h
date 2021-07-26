@@ -12,7 +12,6 @@ typedef struct Pair {
     Number *second;
 } Pair;
 
-void copy_number(Number *, Number *);
 void make_length_equal(Number *, Number *);
 int compare_numbers(Number *, Number *);
 
