@@ -78,7 +78,3 @@ bool is_valid_operator(const char *operator) {
     }
     return false;
 }
-
-int max(int m, int n) {
-    return (m > n ? m : n);
-}

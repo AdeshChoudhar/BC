@@ -23,6 +23,7 @@ int main() {
                 throw_error(10);
                 continue;
             }
+            printf("= ");
             show_number(res);
             delete_number(res);
         } else {

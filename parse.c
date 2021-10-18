@@ -174,22 +174,6 @@ token get_token(const char *expr) {
 //L-R: &
 //L-R: ^
 //L-R: |
-//int precedence(const char *operator) {
-//    if ((strcmp(operator, "(") == 0) || (strcmp(operator, ")") == 0)) {
-//        return 10;
-//    } else if (strcmp(operator, "++") == 0 || strcmp(operator, "--") == 0 ||
-//            strcmp(operator, "+") == 0 || strcmp(operator, "-") == 0) {
-//        if ()
-//    } else if (strcmp(operator, ")") == 0) {
-//
-//    } else if (strcmp(operator, ")") == 0) {
-//
-//    } else if (strcmp(operator, ")") == 0) {
-//
-//    } else if (strcmp(operator, ")") == 0) {
-//
-//    }
-//}
 
 Number *result(char *expr) {
     Number *number1 = init_number();
