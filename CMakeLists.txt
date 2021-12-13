@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.19)
-project(BC C)
+cmake_minimum_required(VERSION 3.20)
+project(BC)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(BC main.c number.c number.h helpers.c helpers.h stack.c stack.h function.c function.h parse.c parse.h)
+add_executable(BC main.cpp)
