@@ -9,6 +9,12 @@
 
 #include "Number.h"
 
-Number *evaluateExpression(string);
+void evaluateExpression(Number *, string &);
+
+int compareNumber(Number number1, Number number2);
+void duplicateNumber(Number *, Number *);
+
+void add(Number *, Number, Number);
+void subtract(Number *, Number, Number);
 
 #endif //BC_FUNCTIONS_H

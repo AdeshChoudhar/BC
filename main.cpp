@@ -17,9 +17,10 @@ int main(int argc, char **argv) {
             if (expression == "quit") {
                 break;
             } else {
-                Number *res = evaluateExpression(expression);
-                if (res != nullptr && res->length != 0) {
-                    printNumber(*res);
+                Number answer;
+                evaluateExpression(&answer, expression);
+                if (answer.length != 0) {
+                    printNumber(answer);
                 } else {
                     // TODO
                     cout << "EvaluationError: Message" << endl;
