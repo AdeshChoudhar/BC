@@ -9,3 +9,12 @@ add_executable(
         Digit.cpp Digit.h
         Number.cpp Number.h
 )
+
+add_subdirectory(Testing)
+add_executable(
+        test Testing/main.cpp
+        functions.cpp functions.h
+        Digit.cpp Digit.h
+        Number.cpp Number.h
+)
+target_link_libraries(test gtest)
