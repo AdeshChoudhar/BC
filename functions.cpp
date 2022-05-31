@@ -19,15 +19,15 @@ int compareNumber(Number number1, Number number2) {
     } else if (number1.length > number2.length) {
         return 1;
     } else {
-        Digit *t1 = number1.tail, *t2 = number2.tail;
-        while ((t1 != nullptr) && (t2 != nullptr)) {
-            if (t1->value < t2->value) {
+        Digit *h1 = number1.head, *h2 = number2.head;
+        while ((h1 != nullptr) && (h2 != nullptr)) {
+            if (h1->value < h2->value) {
                 return -1;
-            } else if (t1->value > t2->value) {
+            } else if (h1->value > h2->value) {
                 return 1;
             }
-            t1 = t1->previous;
-            t2 = t2->previous;
+            h1 = h1->next;
+            h2 = h2->next;
         }
         return 0;
     }
