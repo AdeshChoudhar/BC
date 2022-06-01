@@ -37,5 +37,5 @@ void evaluateExpression(Number *answer, string &expression) {
     string n2 = expression.substr(idx + 1);
     Number number1(n1);
     Number number2(n2);
-    add(answer, number1, number2);
+    multiply(answer, number1, number2);
 }

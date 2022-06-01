@@ -126,16 +126,16 @@ int compareNumber(Number number1, Number number2) {
     }
 }
 
-void duplicateNumber(Number *number1, Number *number2) {
+void copyNumber(Number *number1, Number number2) {
     for (uint i = 0, n = number1->length; i < n; i++) {
         number1->removeBack();
     }
-    Digit *head = number2->head;
+    Digit *head = number2.head;
     while (head != nullptr) {
         number1->insertBack(head->value);
         head = head->next;
     }
-    number1->sign = number2->sign;
+    number1->sign = number2.sign;
 }
 
 void printNumber(Number number) {
