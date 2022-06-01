@@ -2,48 +2,7 @@
 // Created by adeshchoudhar on 13/12/21.
 //
 
-#include "functions.h"
-
-void evaluateExpression(Number *answer, string &expression) {
-    size_t idx = expression.find(' ');
-    string n1 = expression.substr(0, idx);
-    string n2 = expression.substr(idx + 1);
-    Number number1(n1);
-    Number number2(n2);
-    subtract(answer, number1, number2);
-}
-
-int compareNumber(Number number1, Number number2) {
-    if (number1.length < number2.length) {
-        return -1;
-    } else if (number1.length > number2.length) {
-        return 1;
-    } else {
-        Digit *h1 = number1.head, *h2 = number2.head;
-        while ((h1 != nullptr) && (h2 != nullptr)) {
-            if (h1->value < h2->value) {
-                return -1;
-            } else if (h1->value > h2->value) {
-                return 1;
-            }
-            h1 = h1->next;
-            h2 = h2->next;
-        }
-        return 0;
-    }
-}
-
-void duplicateNumber(Number *number1, Number *number2) {
-    for (uint i = 0, n = number1->length; i < n; i++) {
-        number1->removeBack();
-    }
-    Digit *head = number2->head;
-    while (head != nullptr) {
-        number1->insertBack(head->value);
-        head = head->next;
-    }
-    number1->sign = number2->sign;
-}
+#include "operations.h"
 
 void add(Number *answer, Number number1, Number number2) {
     if (number1.sign == ZERO && number2.sign == ZERO) {

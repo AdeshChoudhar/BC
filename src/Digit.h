@@ -20,8 +20,6 @@ public:
 
     Digit();
     Digit(char);
-
-    bool isValidDigit(char);
 };
 
 #endif //BC_DIGIT_H

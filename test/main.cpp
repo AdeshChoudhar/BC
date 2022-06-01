@@ -3,10 +3,10 @@
 //
 
 #include "gtest/gtest.h"
-#include "../src/functions.h"
+#include "../src/operations.h"
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
+int main() {
+    ::testing::InitGoogleTest();
     return RUN_ALL_TESTS();
 }
 
@@ -31,7 +31,7 @@ vector<pair<string, string>> numbers = {
         {"-123", "-123"}, {"-123123", "-123"}, {"-123", "-123123"},
 };
 
-TEST(BC_functions, BC_add) {
+TEST(BC_functions, add) {
     vector<string> answers = {
             "0", "123", "123", "-123", "-123",
             "246", "123246", "123246",
@@ -46,7 +46,7 @@ TEST(BC_functions, BC_add) {
     }
 }
 
-TEST(BC_functions, BC_subtract) {
+TEST(BC_functions, subtract) {
     vector<string> answers = {
             "0", "-123", "123", "123", "-123",
             "0", "123000", "-123000",

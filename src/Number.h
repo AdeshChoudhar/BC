@@ -31,6 +31,9 @@ public:
 };
 
 void removeLeadingZeroes(Number *);
+
+int compareNumber(Number number1, Number number2);
+void duplicateNumber(Number *, Number *);
 void printNumber(Number number);
 
 #endif //BC_NUMBER_H

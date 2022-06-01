@@ -2,13 +2,13 @@
 // Created by adeshchoudhar on 13/12/21.
 //
 
-#include "functions.h"
+#include <cstring>
 
-int main(int argc, char **argv) {
-    if (argc > 1) {
-        cout << "UsageError: ./BC" << endl;
-        exit(1);
-    }
+#include "operations.h"
+
+void evaluateExpression(Number *, string &);
+
+int main() {
     while (true) {
         cout << "> ";
         string expression;
@@ -29,4 +29,13 @@ int main(int argc, char **argv) {
         }
     }
     return 0;
+}
+
+void evaluateExpression(Number *answer, string &expression) {
+    size_t idx = expression.find(' ');
+    string n1 = expression.substr(0, idx);
+    string n2 = expression.substr(idx + 1);
+    Number number1(n1);
+    Number number2(n2);
+    add(answer, number1, number2);
 }

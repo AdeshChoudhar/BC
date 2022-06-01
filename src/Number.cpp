@@ -106,6 +106,38 @@ void removeLeadingZeroes(Number *number) {
     }
 }
 
+int compareNumber(Number number1, Number number2) {
+    if (number1.length < number2.length) {
+        return -1;
+    } else if (number1.length > number2.length) {
+        return 1;
+    } else {
+        Digit *h1 = number1.head, *h2 = number2.head;
+        while ((h1 != nullptr) && (h2 != nullptr)) {
+            if (h1->value < h2->value) {
+                return -1;
+            } else if (h1->value > h2->value) {
+                return 1;
+            }
+            h1 = h1->next;
+            h2 = h2->next;
+        }
+        return 0;
+    }
+}
+
+void duplicateNumber(Number *number1, Number *number2) {
+    for (uint i = 0, n = number1->length; i < n; i++) {
+        number1->removeBack();
+    }
+    Digit *head = number2->head;
+    while (head != nullptr) {
+        number1->insertBack(head->value);
+        head = head->next;
+    }
+    number1->sign = number2->sign;
+}
+
 void printNumber(Number number) {
     if (number.sign == MINUS) {
         cout << "-";

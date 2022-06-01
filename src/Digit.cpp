@@ -11,11 +11,7 @@ Digit::Digit() {
 }
 
 Digit::Digit(char v) {
-    this->value = isValidDigit(v) ? v : '\0';
+    this->value = ((ORD(v) >= 0) && (ORD(v) <= 9)) ? v : '\0';
     this->next = nullptr;
     this->previous = nullptr;
-}
-
-bool Digit::isValidDigit(char v) {
-    return ((ORD(v) >= 0) && (ORD(v) <= 9));
 }

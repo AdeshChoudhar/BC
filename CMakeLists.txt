@@ -5,7 +5,7 @@ project(BC)
 
 add_executable(
         BC src/main.cpp
-        src/functions.cpp src/functions.h
+        src/operations.cpp src/operations.h
         src/Digit.cpp src/Digit.h
         src/Number.cpp src/Number.h
 )
@@ -21,7 +21,7 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(
         TEST test/main.cpp
-        src/functions.cpp src/functions.h
+        src/operations.cpp src/operations.h
         src/Digit.cpp src/Digit.h
         src/Number.cpp src/Number.h
 )
