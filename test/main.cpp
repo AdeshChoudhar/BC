@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../functions.h"
+#include "../src/functions.h"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
