@@ -18,12 +18,8 @@ void add(Number *answer, Number number1, Number number2) {
     }
     if (number1.sign == PLUS) {
         if (number2.sign == PLUS) {
-            int cmp = compareNumber(number1, number2);
-            if (cmp == -1) {
-                add(answer, number2, number1);
-                return;
-            }
             int tmp, res, cry = 0;
+            makeLengthEqual(&number1, &number2);
             Digit *t1 = number1.tail, *t2 = number2.tail;
             while ((t1 != nullptr) && (t2 != nullptr)) {
                 tmp = ORD(t1->value) + ORD(t2->value) + cry;
@@ -32,13 +28,6 @@ void add(Number *answer, Number number1, Number number2) {
                 answer->insertFront(CHR(res));
                 t1 = t1->previous;
                 t2 = t2->previous;
-            }
-            while (t1 != nullptr) {
-                tmp = ORD(t1->value) + cry;
-                res = tmp % 10;
-                cry = tmp / 10;
-                answer->insertFront(CHR(res));
-                t1 = t1->previous;
             }
             if (cry) {
                 answer->insertFront(CHR(cry));
@@ -86,6 +75,7 @@ void subtract(Number *answer, Number number1, Number number2) {
                 return;
             }
             int tmp, res, brw = 0;
+            makeLengthEqual(&number1, &number2);
             Digit *t1 = number1.tail, *t2 = number2.tail;
             while (t1 != nullptr && t2 != nullptr) {
                 tmp = ORD(t1->value) - brw;
@@ -99,11 +89,6 @@ void subtract(Number *answer, Number number1, Number number2) {
                 answer->insertFront(CHR(res));
                 t1 = t1->previous;
                 t2 = t2->previous;
-            }
-            while (t1 != nullptr) {
-                answer->insertFront(CHR(ORD(t1->value) - brw));
-                t1 = t1->previous;
-                brw = 0;
             }
             removeLeadingZeroes(answer);
         } else {
