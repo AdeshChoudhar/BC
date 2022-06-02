@@ -159,3 +159,44 @@ void multiply(Number *answer, Number number1, Number number2) {
     }
     answer->sign = (number1.sign == number2.sign) ? PLUS : MINUS;
 }
+
+void divide(Number *answer, Number number1, Number number2) {
+    if (number2.sign == ZERO) {
+        // TODO: ZeroDivisionError
+        return;
+    } else if (number1.sign == ZERO) {
+        answer->insertFront(CHR(0));
+        answer->sign = ZERO;
+        return;
+    }
+    answer->sign = (number1.sign == number2.sign) ? PLUS : MINUS;
+    number1.sign = PLUS;
+    number2.sign = PLUS;
+    Number results[10];
+    results[0].insertFront(CHR(0));
+    results[0].sign = ZERO;
+    for (int i = 1; i < 10; i++) {
+        add(results + i, results[i - 1], number2);
+    }
+    int j;
+    Number remainder;
+    remainder.sign = PLUS;
+    Digit *h1 = number1.head;
+    while (h1 != nullptr) {
+        Number subtraction;
+        remainder.insertBack(h1->value);
+        if (compareNumber(remainder, number2) == -1) {
+            answer->insertBack(CHR(0));
+        } else {
+            j = 10;
+            do {
+                j -= 1;
+            } while (compareNumber(remainder, results[j]) == -1);
+            answer->insertBack(CHR(j));
+            subtract(&subtraction, remainder, results[j]);
+            copyNumber(&remainder, subtraction);
+        }
+        h1 = h1->next;
+    }
+    removeLeadingZeroes(answer);
+}

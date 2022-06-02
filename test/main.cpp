@@ -126,3 +126,31 @@ TEST(BC_functions, Multiply) {
         EXPECT_EQ(answer.sign, answers[i].second);
     }
 }
+
+TEST(BC_functions, Divide) {
+    vector<pair<string, Sign>> answers = {
+            {"",      ZERO},
+            {"0",     ZERO},
+            {"",      ZERO},
+            {"0",     ZERO},
+            {"",      ZERO},
+            {"1",     PLUS},
+            {"1001",  PLUS},
+            {"0",     ZERO},
+            {"-1",    MINUS},
+            {"-1001", MINUS},
+            {"0",     ZERO},
+            {"-1",    MINUS},
+            {"-1001", MINUS},
+            {"0",     ZERO},
+            {"1",     PLUS},
+            {"1001",  PLUS},
+            {"0",     ZERO}
+    };
+    for (uint i = 0, n = numbers.size(); i < n; i++) {
+        Number number1(numbers[i].first), number2(numbers[i].second), answer;
+        divide(&answer, number1, number2);
+        EXPECT_EQ(stringNumber(answer), answers[i].first);
+        EXPECT_EQ(answer.sign, answers[i].second);
+    }
+}

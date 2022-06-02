@@ -20,10 +20,10 @@ int main() {
                 Number answer;
                 evaluateExpression(&answer, expression);
                 if (answer.length != 0) {
+                    cout << "= ";
                     printNumber(answer);
                 } else {
-                    // TODO
-                    cout << "EvaluationError: Message" << endl;
+                    // TODO: SyntaxError
                 }
             }
         }
@@ -32,10 +32,19 @@ int main() {
 }
 
 void evaluateExpression(Number *answer, string &expression) {
-    size_t idx = expression.find(' ');
+    size_t idx = expression.find(' '), ridx = expression.rfind(' ');
     string n1 = expression.substr(0, idx);
-    string n2 = expression.substr(idx + 1);
+    string op = expression.substr(idx + 1, 1);
+    string n2 = expression.substr(ridx + 1);
     Number number1(n1);
     Number number2(n2);
-    multiply(answer, number1, number2);
+    if (op == "+") {
+        add(answer, number1, number2);
+    } else if (op == "-") {
+        subtract(answer, number1, number2);
+    } else if (op == "*") {
+        multiply(answer, number1, number2);
+    } else if (op == "/") {
+        divide(answer, number1, number2);
+    }
 }

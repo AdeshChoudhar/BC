@@ -107,23 +107,18 @@ void removeLeadingZeroes(Number *number) {
 }
 
 int compareNumber(Number number1, Number number2) {
-    if (number1.length < number2.length) {
-        return -1;
-    } else if (number1.length > number2.length) {
-        return 1;
-    } else {
-        Digit *h1 = number1.head, *h2 = number2.head;
-        while ((h1 != nullptr) && (h2 != nullptr)) {
-            if (h1->value < h2->value) {
-                return -1;
-            } else if (h1->value > h2->value) {
-                return 1;
-            }
-            h1 = h1->next;
-            h2 = h2->next;
+    makeLengthEqual(&number1, &number2);
+    Digit *h1 = number1.head, *h2 = number2.head;
+    while ((h1 != nullptr) && (h2 != nullptr)) {
+        if (h1->value < h2->value) {
+            return (number2.sign == PLUS) ? -1 : 1;
+        } else if (h1->value > h2->value) {
+            return (number1.sign == PLUS) ? 1 : -1;
         }
-        return 0;
+        h1 = h1->next;
+        h2 = h2->next;
     }
+    return 0;
 }
 
 void copyNumber(Number *number1, Number number2) {
@@ -136,6 +131,18 @@ void copyNumber(Number *number1, Number number2) {
         head = head->next;
     }
     number1->sign = number2.sign;
+}
+
+void makeLengthEqual(Number *number1, Number *number2) {
+    if (number1->length < number2->length) {
+        while (number1->length != number2->length) {
+            number1->insertFront(CHR(0));
+        }
+    } else {
+        while (number1->length != number2->length) {
+            number2->insertFront(CHR(0));
+        }
+    }
 }
 
 void printNumber(Number number) {

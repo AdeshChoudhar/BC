@@ -10,5 +10,6 @@
 void add(Number *, Number, Number);
 void subtract(Number *, Number, Number);
 void multiply(Number *, Number, Number);
+void divide(Number *, Number, Number);
 
 #endif //BC_FUNCTIONS_H
