@@ -23,6 +23,7 @@ public:
 
     Number();
     Number(string s);
+    ~Number();
 
     void insertBack(char);
     void insertFront(char);
@@ -32,9 +33,9 @@ public:
 
 void removeLeadingZeroes(Number *);
 
-int compareNumber(Number number1, Number number2);
-void copyNumber(Number *, Number);
+int compareNumber(Number *, Number *);
+void copyNumber(Number *, Number *);
 void makeLengthEqual(Number *, Number *);
-void printNumber(Number number);
+void printNumber(Number *);
 
 #endif //BC_NUMBER_H

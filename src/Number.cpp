@@ -28,6 +28,12 @@ Number::Number(string s) {
     removeLeadingZeroes(this);
 }
 
+Number::~Number() {
+    for (uint i = 0, n = this->length; i < n; i++) {
+        this->removeFront();
+    }
+}
+
 void Number::insertBack(char v) {
     Digit *digit = new Digit(v);
     if (digit->value == '\0') {
@@ -106,31 +112,33 @@ void removeLeadingZeroes(Number *number) {
     }
 }
 
-int compareNumber(Number number1, Number number2) {
-    makeLengthEqual(&number1, &number2);
-    Digit *h1 = number1.head, *h2 = number2.head;
+int compareNumber(Number *number1, Number *number2) {
+    makeLengthEqual(number1, number2);
+    Digit *h1 = number1->head, *h2 = number2->head;
     while ((h1 != nullptr) && (h2 != nullptr)) {
         if (h1->value < h2->value) {
-            return (number2.sign == PLUS) ? -1 : 1;
+            return (number2->sign == PLUS) ? -1 : 1;
         } else if (h1->value > h2->value) {
-            return (number1.sign == PLUS) ? 1 : -1;
+            return (number1->sign == PLUS) ? 1 : -1;
         }
         h1 = h1->next;
         h2 = h2->next;
     }
+    removeLeadingZeroes(number1);
+    removeLeadingZeroes(number2);
     return 0;
 }
 
-void copyNumber(Number *number1, Number number2) {
+void copyNumber(Number *number1, Number *number2) {
     for (uint i = 0, n = number1->length; i < n; i++) {
         number1->removeBack();
     }
-    Digit *head = number2.head;
+    Digit *head = number2->head;
     while (head != nullptr) {
         number1->insertBack(head->value);
         head = head->next;
     }
-    number1->sign = number2.sign;
+    number1->sign = number2->sign;
 }
 
 void makeLengthEqual(Number *number1, Number *number2) {
@@ -145,11 +153,11 @@ void makeLengthEqual(Number *number1, Number *number2) {
     }
 }
 
-void printNumber(Number number) {
-    if (number.sign == MINUS) {
+void printNumber(Number *number) {
+    if (number->sign == MINUS) {
         cout << "-";
     }
-    Digit *current = number.head;
+    Digit *current = number->head;
     while (current) {
         cout << current->value;
         current = current->next;

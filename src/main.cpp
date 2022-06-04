@@ -17,14 +17,15 @@ int main() {
             if (expression == "quit") {
                 break;
             } else {
-                Number answer;
-                evaluateExpression(&answer, expression);
-                if (answer.length != 0) {
+                Number *answer = new Number();
+                evaluateExpression(answer, expression);
+                if (answer->length != 0) {
                     cout << "= ";
                     printNumber(answer);
                 } else {
                     // TODO: SyntaxError
                 }
+                delete answer;
             }
         }
     }
@@ -32,12 +33,12 @@ int main() {
 }
 
 void evaluateExpression(Number *answer, string &expression) {
-    size_t idx = expression.find(' '), ridx = expression.rfind(' ');
+    size_t idx = expression.find(' '), rdx = expression.rfind(' ');
     string n1 = expression.substr(0, idx);
     string op = expression.substr(idx + 1, 1);
-    string n2 = expression.substr(ridx + 1);
-    Number number1(n1);
-    Number number2(n2);
+    string n2 = expression.substr(rdx + 1);
+    Number *number1 = new Number(n1);
+    Number *number2 = new Number(n2);
     if (op == "+") {
         add(answer, number1, number2);
     } else if (op == "-") {
@@ -47,4 +48,6 @@ void evaluateExpression(Number *answer, string &expression) {
     } else if (op == "/") {
         divide(answer, number1, number2);
     }
+    delete number1;
+    delete number2;
 }
