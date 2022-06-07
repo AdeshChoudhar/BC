@@ -10,12 +10,12 @@ int main() {
     return RUN_ALL_TESTS();
 }
 
-string stringNumber(Number *number) {
+string stringNumber(Number number) {
     string str;
-    if (number->sign == MINUS) {
+    if (number.sign == MINUS) {
         str.push_back('-');
     }
-    Digit *current = number->head;
+    Digit *current = number.head;
     while (current) {
         str.push_back(current->value);
         current = current->next;
@@ -63,16 +63,16 @@ TEST(BC_functions, Add) {
             {"-123246", MINUS},
             {"-123246", MINUS}
     };
+    Number answer, number1, number2;
     for (uint i = 0, n = numbers.size(); i < n; i++) {
-        Number *number1 = new Number(numbers[i].first);
-        Number *number2 = new Number(numbers[i].second);
-        Number *answer = new Number();
-        add(answer, number1, number2);
+        number1 = Number(numbers[i].first);
+        number2 = Number(numbers[i].second);
+        add(&answer, &number1, &number2);
         EXPECT_EQ(stringNumber(answer), answers[i].first);
-        EXPECT_EQ(answer->sign, answers[i].second);
-        delete number1;
-        delete number2;
-        delete answer;
+        EXPECT_EQ(answer.sign, answers[i].second);
+        answer.clear();
+        number1.clear();
+        number2.clear();
     }
 }
 
@@ -96,16 +96,16 @@ TEST(BC_functions, Subtract) {
             {"-123000", MINUS},
             {"123000",  PLUS}
     };
+    Number answer, number1, number2;
     for (uint i = 0, n = numbers.size(); i < n; i++) {
-        Number *number1 = new Number(numbers[i].first);
-        Number *number2 = new Number(numbers[i].second);
-        Number *answer = new Number();
-        subtract(answer, number1, number2);
+        number1 = Number(numbers[i].first);
+        number2 = Number(numbers[i].second);
+        subtract(&answer, &number1, &number2);
         EXPECT_EQ(stringNumber(answer), answers[i].first);
-        EXPECT_EQ(answer->sign, answers[i].second);
-        delete number1;
-        delete number2;
-        delete answer;
+        EXPECT_EQ(answer.sign, answers[i].second);
+        answer.clear();
+        number1.clear();
+        number2.clear();
     }
 }
 
@@ -129,16 +129,16 @@ TEST(BC_functions, Multiply) {
             {"15144129",  PLUS},
             {"15144129",  PLUS}
     };
+    Number answer, number1, number2;
     for (uint i = 0, n = numbers.size(); i < n; i++) {
-        Number *number1 = new Number(numbers[i].first);
-        Number *number2 = new Number(numbers[i].second);
-        Number *answer = new Number();
-        multiply(answer, number1, number2);
+        number1 = Number(numbers[i].first);
+        number2 = Number(numbers[i].second);
+        multiply(&answer, &number1, &number2);
         EXPECT_EQ(stringNumber(answer), answers[i].first);
-        EXPECT_EQ(answer->sign, answers[i].second);
-        delete number1;
-        delete number2;
-        delete answer;
+        EXPECT_EQ(answer.sign, answers[i].second);
+        answer.clear();
+        number1.clear();
+        number2.clear();
     }
 }
 
@@ -162,15 +162,15 @@ TEST(BC_functions, Divide) {
             {"1001",  PLUS},
             {"0",     ZERO}
     };
+    Number answer, number1, number2;
     for (uint i = 0, n = numbers.size(); i < n; i++) {
-        Number *number1 = new Number(numbers[i].first);
-        Number *number2 = new Number(numbers[i].second);
-        Number *answer = new Number();
-        divide(answer, number1, number2);
+        number1 = Number(numbers[i].first);
+        number2 = Number(numbers[i].second);
+        divide(&answer, &number1, &number2);
         EXPECT_EQ(stringNumber(answer), answers[i].first);
-        EXPECT_EQ(answer->sign, answers[i].second);
-        delete number1;
-        delete number2;
-        delete answer;
+        EXPECT_EQ(answer.sign, answers[i].second);
+        answer.clear();
+        number1.clear();
+        number2.clear();
     }
 }

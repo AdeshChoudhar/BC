@@ -10,10 +10,10 @@ void add(Number *answer, Number *number1, Number *number2) {
         answer->sign = ZERO;
         return;
     } else if (number1->sign == ZERO) {
-        copyNumber(answer, number2);
+        answer->copy(*number2);
         return;
     } else if (number2->sign == ZERO) {
-        copyNumber(answer, number1);
+        answer->copy(*number1);
         return;
     }
     if (number1->sign == PLUS) {
@@ -57,16 +57,16 @@ void subtract(Number *answer, Number *number1, Number *number2) {
         answer->sign = ZERO;
         return;
     } else if (number1->sign == ZERO) {
-        copyNumber(answer, number2);
+        answer->copy(*number2);
         answer->sign = (answer->sign == PLUS) ? MINUS : PLUS;
         return;
     } else if (number2->sign == ZERO) {
-        copyNumber(answer, number1);
+        answer->copy(*number1);
         return;
     }
     if (number1->sign == PLUS) {
         if (number2->sign == PLUS) {
-            int cmp = compareNumber(number1, number2);
+            int cmp = compareNumbers(number1, number2);
             if (cmp == 0) {
                 answer->insertFront(CHR(0));
                 answer->sign = ZERO;
@@ -116,11 +116,12 @@ void multiply(Number *answer, Number *number1, Number *number2) {
     if (number1->sign == ZERO || number2->sign == ZERO) {
         return;
     }
+    Number *result;
     int tmp, res, cry;
     Digit *t1, *t2 = number2->tail;
-    Number *results[number2->length];
+    vector<Number *> results(number2->length, nullptr);
     for (uint i = 0, n = number2->length; i < n; i++, t2 = t2->previous) {
-        Number *result = new Number();
+        result = new Number();
         for (uint j = 0; j < i; j++) {
             result->insertFront(CHR(0));
         }
@@ -139,14 +140,18 @@ void multiply(Number *answer, Number *number1, Number *number2) {
         result->sign = PLUS;
         results[i] = result;
     }
+    Number *addition = new Number();
     for (Number *number: results) {
-        Number *result = new Number();
-        add(result, answer, number);
-        copyNumber(answer, result);
-        delete number;
-        delete result;
+        add(addition, answer, number);
+        answer->copy(*addition);
+        addition->clear();
     }
     answer->sign = (number1->sign == number2->sign) ? PLUS : MINUS;
+    for (Number *number: results) {
+        number->clear();
+        delete number;
+    }
+    delete addition;
 }
 
 void divide(Number *answer, Number *number1, Number *number2) {
@@ -161,7 +166,7 @@ void divide(Number *answer, Number *number1, Number *number2) {
     answer->sign = (number1->sign == number2->sign) ? PLUS : MINUS;
     number1->sign = PLUS;
     number2->sign = PLUS;
-    Number *results[10];
+    vector<Number *>results(10, nullptr);
     results[0] = new Number();
     results[0]->insertFront(CHR(0));
     results[0]->sign = ZERO;
@@ -170,29 +175,31 @@ void divide(Number *answer, Number *number1, Number *number2) {
         add(results[i], results[i - 1], number2);
     }
     int j;
-    Number *remainder = new Number();
+    Number *remainder = new Number(), *subtraction = new Number();
     remainder->sign = PLUS;
     Digit *h1 = number1->head;
     while (h1 != nullptr) {
-        Number *subtraction = new Number();
         remainder->insertBack(h1->value);
-        if (compareNumber(remainder, number2) == -1) {
+        if (compareNumbers(remainder, number2) == -1) {
             answer->insertBack(CHR(0));
         } else {
             j = 10;
             do {
                 j -= 1;
-            } while (compareNumber(remainder, results[j]) == -1);
+            } while (compareNumbers(remainder, results[j]) == -1);
             answer->insertBack(CHR(j));
             subtract(subtraction, remainder, results[j]);
-            copyNumber(remainder, subtraction);
+            remainder->copy(*subtraction);
         }
         h1 = h1->next;
-        delete subtraction;
+        subtraction->clear();
     }
     removeLeadingZeroes(answer);
     for (Number *number: results) {
+        number->clear();
         delete number;
     }
+    remainder->clear();
     delete remainder;
+    delete subtraction;
 }

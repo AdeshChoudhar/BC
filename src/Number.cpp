@@ -28,12 +28,6 @@ Number::Number(string s) {
     removeLeadingZeroes(this);
 }
 
-Number::~Number() {
-    for (uint i = 0, n = this->length; i < n; i++) {
-        this->removeFront();
-    }
-}
-
 void Number::insertBack(char v) {
     Digit *digit = new Digit(v);
     if (digit->value == '\0') {
@@ -100,19 +94,35 @@ void Number::removeFront() {
     delete tmp;
 }
 
-void removeLeadingZeroes(Number *number) {
-    if (number->length == 0) {
-        return;
-    }
-    while ((number->head->next != nullptr) && (number->head->value == CHR(0))) {
-        number->removeFront();
-    }
-    if ((number->length == 1) && (number->head->value == CHR(0))) {
-        number->sign = ZERO;
+void Number::clear() {
+    for (uint i = 0, n = this->length; i < n; i++) {
+        this->removeFront();
     }
 }
 
-int compareNumber(Number *number1, Number *number2) {
+void Number::copy(Number number) {
+    this->clear();
+    Digit *head = number.head;
+    while (head != nullptr) {
+        this->insertBack(head->value);
+        head = head->next;
+    }
+    this->sign = number.sign;
+}
+
+void Number::print() {
+    if (this->sign == MINUS) {
+        cout << "-";
+    }
+    Digit *current = this->head;
+    while (current) {
+        cout << current->value;
+        current = current->next;
+    }
+    cout << endl;
+}
+
+int compareNumbers(Number *number1, Number *number2) {
     makeLengthEqual(number1, number2);
     Digit *h1 = number1->head, *h2 = number2->head;
     while ((h1 != nullptr) && (h2 != nullptr)) {
@@ -129,18 +139,6 @@ int compareNumber(Number *number1, Number *number2) {
     return 0;
 }
 
-void copyNumber(Number *number1, Number *number2) {
-    for (uint i = 0, n = number1->length; i < n; i++) {
-        number1->removeBack();
-    }
-    Digit *head = number2->head;
-    while (head != nullptr) {
-        number1->insertBack(head->value);
-        head = head->next;
-    }
-    number1->sign = number2->sign;
-}
-
 void makeLengthEqual(Number *number1, Number *number2) {
     if (number1->length < number2->length) {
         while (number1->length != number2->length) {
@@ -153,14 +151,14 @@ void makeLengthEqual(Number *number1, Number *number2) {
     }
 }
 
-void printNumber(Number *number) {
-    if (number->sign == MINUS) {
-        cout << "-";
+void removeLeadingZeroes(Number *number) {
+    if (number->length == 0) {
+        return;
     }
-    Digit *current = number->head;
-    while (current) {
-        cout << current->value;
-        current = current->next;
+    while ((number->head->next != nullptr) && (number->head->value == CHR(0))) {
+        number->removeFront();
     }
-    cout << endl;
+    if ((number->length == 1) && (number->head->value == CHR(0))) {
+        number->sign = ZERO;
+    }
 }

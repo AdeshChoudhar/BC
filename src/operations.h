@@ -5,6 +5,8 @@
 #ifndef BC_OPERATIONS_H
 #define BC_OPERATIONS_H
 
+#include <vector>
+
 #include "Number.h"
 
 void add(Number *, Number *, Number *);

@@ -23,19 +23,19 @@ public:
 
     Number();
     Number(string s);
-    ~Number();
 
     void insertBack(char);
     void insertFront(char);
     void removeBack();
     void removeFront();
+
+    void clear();
+    void copy(Number);
+    void print();
 };
 
+int compareNumbers(Number *, Number *);
 void removeLeadingZeroes(Number *);
-
-int compareNumber(Number *, Number *);
-void copyNumber(Number *, Number *);
 void makeLengthEqual(Number *, Number *);
-void printNumber(Number *);
 
 #endif //BC_NUMBER_H

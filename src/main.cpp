@@ -9,6 +9,7 @@
 void evaluateExpression(Number *, string &);
 
 int main() {
+    Number answer;
     while (true) {
         cout << "> ";
         string expression;
@@ -17,15 +18,14 @@ int main() {
             if (expression == "quit") {
                 break;
             } else {
-                Number *answer = new Number();
-                evaluateExpression(answer, expression);
-                if (answer->length != 0) {
+                evaluateExpression(&answer, expression);
+                if (answer.length != 0) {
                     cout << "= ";
-                    printNumber(answer);
+                    answer.print();
                 } else {
                     // TODO: SyntaxError
                 }
-                delete answer;
+                answer.clear();
             }
         }
     }
@@ -37,17 +37,15 @@ void evaluateExpression(Number *answer, string &expression) {
     string n1 = expression.substr(0, idx);
     string op = expression.substr(idx + 1, 1);
     string n2 = expression.substr(rdx + 1);
-    Number *number1 = new Number(n1);
-    Number *number2 = new Number(n2);
+    Number number1(n1);
+    Number number2(n2);
     if (op == "+") {
-        add(answer, number1, number2);
+        add(answer, &number1, &number2);
     } else if (op == "-") {
-        subtract(answer, number1, number2);
+        subtract(answer, &number1, &number2);
     } else if (op == "*") {
-        multiply(answer, number1, number2);
+        multiply(answer, &number1, &number2);
     } else if (op == "/") {
-        divide(answer, number1, number2);
+        divide(answer, &number1, &number2);
     }
-    delete number1;
-    delete number2;
 }
