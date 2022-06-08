@@ -20,8 +20,7 @@ int main() {
             } else {
                 evaluateExpression(&answer, expression);
                 if (answer.length != 0) {
-                    cout << "= ";
-                    answer.print();
+                    cout << "= " << answer.str() << endl;
                 } else {
                     // TODO: SyntaxError
                 }

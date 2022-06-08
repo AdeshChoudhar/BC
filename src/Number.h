@@ -13,7 +13,6 @@ enum Sign {
     PLUS = 1
 };
 
-
 class Number {
 public:
     Sign sign;
@@ -31,7 +30,7 @@ public:
 
     void clear();
     void copy(Number);
-    void print();
+    string str();
 };
 
 int compareNumbers(Number *, Number *);

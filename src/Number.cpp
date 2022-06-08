@@ -110,16 +110,17 @@ void Number::copy(Number number) {
     this->sign = number.sign;
 }
 
-void Number::print() {
+string Number::str() {
+    string s;
     if (this->sign == MINUS) {
-        cout << "-";
+        s.push_back('-');
     }
     Digit *current = this->head;
     while (current) {
-        cout << current->value;
+        s.push_back(current->value);
         current = current->next;
     }
-    cout << endl;
+    return s;
 }
 
 int compareNumbers(Number *number1, Number *number2) {
